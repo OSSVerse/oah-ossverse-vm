@@ -1,0 +1,6 @@
+---
+Setting env variable:
+  vars:
+    environment: "{{ lookup('env','BESMAN_ENV') }}"
+    
+  

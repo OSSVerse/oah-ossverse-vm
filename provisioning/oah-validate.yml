@@ -1,0 +1,23 @@
+---
+- hosts: all
+
+  vars:
+  - oah_command: validate
+
+  vars_files:
+    - ../oah-config.yml
+
+
+  pre_tasks:
+    - include: tasks/init-debian.yml
+      when: ansible_os_family == 'Debian'
+
+  roles:
+    # Essential roles.
+    - oah.bes
+
+    # Conditionally-installed roles.
+
+    # Roles for security and stability on production.
+
+  tasks:

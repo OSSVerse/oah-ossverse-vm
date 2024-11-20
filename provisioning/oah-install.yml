@@ -1,0 +1,50 @@
+---
+- hosts: all || localhost
+  vars:
+  - oah_command: install
+  - HOME: /home/vagrant
+
+  vars_files:
+    - ../oah-config.yml
+
+  pre_tasks:
+    - include_vars: tasks/bes_env_config.yml
+    - name: "printing debug msg"
+      become: yes
+      debug:
+        msg: In pre_tasks
+    # Will need the shell provision to install python-minimal first
+    - name: Install python for Ansible
+      become: yes
+      raw: test -e /usr/bin/python || (sudo apt install -y python3-minimal)
+    - include: tasks/init-debian.yml
+      when: ansible_os_family == 'Debian'
+#   roles:
+#     # Essential roles.
+#     - { role: oah.threatdragon, when: BESMAN_ENV == 'lf-java-RT' }
+#     - { role: oah.bes
+#     - oah.desktop
+#     - oah.shell
+#     - oah.vscode
+  tasks:
+    - name: Include VM roles
+      include_role: 
+        name: "{{ item }}"
+      with_items:
+        - "oah.bes"
+        - "oah.chrome"
+        #- "oah.shell"
+        - "oah.desktop"
+      when: environment is defined
+    
+    - name: Include L&F-Java-RT-env roles
+      include_role: 
+        name: "{{ item }}"
+      with_items:
+        - "oah.threatdragon"
+      when: environment is not defined
+
+
+    # Conditionally-installed roles.
+
+    # Roles for security and stability on production.

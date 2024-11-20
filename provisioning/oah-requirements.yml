@@ -1,0 +1,10 @@
+---
+- src: https://github.com/Be-Secure/ansible-role-oah-bes
+  version: main
+  name: oah.bes
+- src: https://github.com/Be-Secure/ansible-role-oah-desktop
+  version: main
+  name: oah.desktop
+- src: https://github.com/Be-Secure/ansible-role-oah-chrome
+  version: main
+  name: oah.chrome

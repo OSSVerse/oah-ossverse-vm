@@ -1,0 +1,18 @@
+---
+- name: Update apt cache if needed.
+  become: yes
+  apt: update_cache=yes cache_valid_time=86400
+
+- name: Get software for Python-based control.
+  become: yes
+  apt: "name={{ item }} state=present"
+  with_items:
+    - curl
+    #- python-apt
+    #- python-pycurl
+    #- build-essential
+    #- shellinabox
+
+- name: Disable the ufw firewall (since we use a simple iptables firewall).
+  become: yes
+  service: name=ufw state=stopped
